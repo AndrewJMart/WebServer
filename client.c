@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
        exit(1);
     } 
 
-    buf[bytes_recieved] = '\0';
+    buf[bytes_received] = '\0';
 
     printf("Recieved: %s\n", buf);
 
