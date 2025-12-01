@@ -27,7 +27,6 @@ int main() {
 
     printf("Host Name: %s\n", hostname);
 
-
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC; // IP Agnostic, Not Choosing Between V4/6
     hints.ai_socktype = SOCK_STREAM; // TCP Stream Sockets
@@ -83,10 +82,12 @@ int main() {
         // Send String Package
         bytes_sent = send(acceptfd, msg, len, 0);
 
-        // Close Accept Socket?
+        // Close Accept Socket
+        close(acceptfd);
     }
 
-    // Close Socket FD ??
+    // Close Socket FD
+    close(sockfd);
 
     freeaddrinfo(servinfo);
     return 0;

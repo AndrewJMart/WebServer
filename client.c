@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -43,6 +44,9 @@ int main(int argc, char *argv[]) {
         connect_status = connect(sockfd, p->ai_addr, p->ai_addrlen);
         if (connect_status < 0) {
             perror("Connect");
+
+            // No Longer Need Socket
+            close(sockfd);
             continue;
         }
 
@@ -70,6 +74,7 @@ int main(int argc, char *argv[]) {
 
     printf("Recieved: %s\n", buf);
 
-    return 0;
+    close(sockfd);
 
+    return 0;
 }
