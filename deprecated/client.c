@@ -60,19 +60,9 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
     
-    // Receive From Server
-    int bytes_received;
-    char buf[1000];
-
-    bytes_received = recv(sockfd, buf, 999, 0);
-    if (bytes_received < 0) {
-       perror("recv");
-       exit(1);
-    } 
-
-    buf[bytes_received] = '\0';
-
-    printf("Recieved: %s\n", buf);
+    char *send_message_back = "Sent Message Back";
+    // Send Message Back To Server
+    send(sockfd, send_message_back, strlen(send_message_back), 0);
 
     close(sockfd);
 
