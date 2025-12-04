@@ -7,6 +7,9 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
+#include <pthread.h>
+
+#include "httpthread.h"
 
 #define BACKLOG 10
 
@@ -33,7 +36,7 @@ int main() {
     hints.ai_flags = AI_PASSIVE; // Fill In IP
     
     // Get Personal IP
-    getaddrinfo(NULL, "3490", &hints, &servinfo);
+    getaddrinfo(NULL, "80", &hints, &servinfo);
 
     inet_ntop(servinfo->ai_family,
           &((struct sockaddr_in*)servinfo->ai_addr)->sin_addr,
@@ -74,16 +77,20 @@ int main() {
         // Accept Incoming Requests
         acceptfd = accept(sockfd, (struct sockaddr *)&inc_addr, &addr_size);
 
-        char *msg = "Does This Even Work?";
-        int len, bytes_sent;
+        char *msg = "Accepted Your Connection";
 
-        len = strlen(msg);
+        int len = strlen(msg);
 
         // Send String Package
-        bytes_sent = send(acceptfd, msg, len, 0);
+        send(acceptfd, msg, len, 0);
 
-        // Close Accept Socket
-        close(acceptfd);
+	// Have Thread Handle Connection Accept
+	
+	// Create Thread
+	pthread_t p;
+
+	// Create Other Thread
+	int rc = pthread_create(&p, NULL, handle_request, acceptfd);
     }
 
     // Close Socket FD
